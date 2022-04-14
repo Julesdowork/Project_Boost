@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] private float mainThrust;
+    [SerializeField] private float rotationThrust;
 
     void Awake()
     {
@@ -36,11 +37,16 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("Rotating Left");
+            ApplyRotation(rotationThrust);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("Rotating Right");
+            ApplyRotation(-rotationThrust);
         }
+    }
+
+    private void ApplyRotation(float rotationThisFrame)
+    {
+        transform.Rotate(Vector3.forward * rotationThisFrame * Time.fixedDeltaTime);
     }
 }
