@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] private float levelLoadDelay;
+
     void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -13,18 +15,32 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Collided with Friendly object");
                 break;
             case "Finish":
-                LoadNextLevel();
+                StartSuccessSequence();
                 break;
             default:
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
+    }
+
+    private void StartCrashSequence()
+    {
+        GetComponent<Movement>().enabled = false;
+        
+        Invoke("ReloadLevel", levelLoadDelay);
     }
 
     private void ReloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    private void StartSuccessSequence()
+    {
+        GetComponent<Movement>().enabled = false;
+
+        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
     private void LoadNextLevel()
