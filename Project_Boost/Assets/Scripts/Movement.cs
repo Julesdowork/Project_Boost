@@ -6,6 +6,8 @@ public class Movement : MonoBehaviour
 {
     Rigidbody rb;
 
+    [SerializeField] private float mainThrust;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,7 +28,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up);
+            rb.AddRelativeForce(Vector3.up * mainThrust * Time.fixedDeltaTime);
         }
     }
 
