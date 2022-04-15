@@ -15,13 +15,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private float rotationThrust;
     [SerializeField] private AudioClip mainEngine;
 
-    private bool isTransitioning;
-    public bool IsTransitioning
-    {
-        get => isTransitioning;
-        set => isTransitioning = value;
-    }
-
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
