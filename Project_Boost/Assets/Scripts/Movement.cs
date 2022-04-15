@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    // CACHE - e.g. references for readability or speed
+    // PARAMETERS - for tuning, typically set in the editor
+    // STATE - private instance (member) variables
+
     Rigidbody rb;
     AudioSource audioSource;
 
     [SerializeField] private float mainThrust;
     [SerializeField] private float rotationThrust;
+    [SerializeField] private AudioClip mainEngine;
 
     void Awake()
     {
@@ -34,7 +39,7 @@ public class Movement : MonoBehaviour
             rb.AddRelativeForce(Vector3.up * mainThrust * Time.fixedDeltaTime);
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainEngine);
             }
         }
         if (Input.GetKeyUp(KeyCode.Space))
