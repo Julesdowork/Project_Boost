@@ -14,6 +14,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private float mainThrust;
     [SerializeField] private float rotationThrust;
     [SerializeField] private AudioClip mainEngine;
+    [SerializeField] private ParticleSystem mainEngineParticles;
+    [SerializeField] private ParticleSystem leftThrusterParticles;
+    [SerializeField] private ParticleSystem rightThrusterParticles;
 
     void Awake()
     {
@@ -41,10 +44,15 @@ public class Movement : MonoBehaviour
             {
                 audioSource.PlayOneShot(mainEngine);
             }
+            if (!mainEngineParticles.isPlaying)
+            {
+                mainEngineParticles.Play();
+            }
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             audioSource.Stop();
+            mainEngineParticles.Stop();
         }
     }
 
@@ -53,10 +61,23 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             ApplyRotation(rotationThrust);
+            if (!rightThrusterParticles.isPlaying)
+            {
+                rightThrusterParticles.Play();
+            }
         }
         else if (Input.GetKey(KeyCode.D))
         {
             ApplyRotation(-rotationThrust);
+            if (!leftThrusterParticles.isPlaying)
+            {
+                leftThrusterParticles.Play();
+            }
+        }
+        else
+        {
+            rightThrusterParticles.Stop();
+            leftThrusterParticles.Stop();
         }
     }
 
