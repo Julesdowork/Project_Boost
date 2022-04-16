@@ -14,11 +14,7 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] private ParticleSystem successParticles;
 
     private bool isTransitioning;
-    public bool IsTransitioning
-    {
-        get => isTransitioning;
-        set => isTransitioning = value;
-    }
+    private bool collisionDisabled;
 
     void Awake()
     {
@@ -27,7 +23,7 @@ public class CollisionHandler : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (isTransitioning)
+        if (isTransitioning || collisionDisabled)
             return;
         
         switch (other.gameObject.tag)
@@ -70,7 +66,7 @@ public class CollisionHandler : MonoBehaviour
         Invoke("LoadNextLevel", levelLoadDelay);
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
@@ -79,5 +75,10 @@ public class CollisionHandler : MonoBehaviour
             nextSceneIndex = 0;
         }
         SceneManager.LoadScene(nextSceneIndex);
+    }
+
+    public void ToggleCollision()
+    {
+        collisionDisabled = !collisionDisabled;
     }
 }
